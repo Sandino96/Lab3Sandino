@@ -6,9 +6,6 @@ using std::endl;
 
 void agregarFicha(int columna, int turno, int temp[6][7]);
 void imprimirTablero(int[6][7]);
-int 
-bool gameOver();
-bool turno(int);
 
 int main(int argc, char*argv[]){
 	const int filas = 6;
@@ -16,13 +13,22 @@ int main(int argc, char*argv[]){
 	int tablero[6][7] = {0};
 	int columna;
 	imprimirTablero(tablero);
-	int turno = 1;
-	do{	
-		cout << "Agregar ficha en columna: ";
-		cin >> columna;
-		agregarFicha(columna,turno,tablero);
-		imprimirTablero(tablero);
-	} while(gameOver() && !turno());
+	int chance = 1;
+	while(true){	
+		if(chance == 1){		
+			cout << "Agregar ficha en columna: ";
+			cin >> columna;
+			agregarFicha(columna,chance,tablero);
+			imprimirTablero(tablero);
+			chance = 2;
+		} else {
+			cout << "Agregar ficha en columna: ";
+			cin >> columna;
+			agregarFicha(columna,chance,tablero);
+			imprimirTablero(tablero);
+			chance = 1;
+		}
+	}
 	return 0;
 }
 
@@ -30,6 +36,9 @@ void agregarFicha(int columna, int turno, int temp[6][7]){
 	for(int i = 5; i > 0; i--){
 		if(temp[i][columna] == 0){
 			temp[i][columna] = turno;
+			break;
+		} else if(temp[i][columna] != 0 && temp[i-1][columna] == 0){
+			temp[i-1][columna] = turno;
 			break;
 		}
 	}
@@ -42,8 +51,4 @@ void imprimirTablero(int temp[6][7]){
 		}
 		cout << endl;
 	}
-}
-
-bool gameOver(){
- return true;
 }
